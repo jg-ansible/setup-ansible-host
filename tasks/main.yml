@@ -1,0 +1,4 @@
+---
+# tasks file for setup-ansible-host
+- include_tasks: ./setup-directories.yml
+- include_tasks: ./configure-ansible.yml

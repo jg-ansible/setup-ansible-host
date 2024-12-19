@@ -1,0 +1,39 @@
+
+- name: Place the ansible.cfg
+  copy:
+    dest: /etc/ansible/ansible.cfg
+    content: |
+      [defaults]
+      roles_path = /etc/ansible/roles
+      host_key_checking = False
+
+      [privilege_escalation]
+      become = True
+      become_ask_pass = True
+    owner: ansible
+    group: ansible
+    mode: '0744'
+
+- name: Generate an OpenSSH keypair for the ansible user (ed25519)
+  openssh_keypair:
+    path: /home/ansible/.ssh/ed25519
+    comment: ansible-controller
+    type: ed25519
+    owner: ansible
+    group: ansible
+
+- name: Fix owner of the generated pub key
+  file:
+    path: /home/ansible/.ssh/ed25519.pub
+    owner: ansible
+    group: ansible
+    mode: '0700'
+
+- name: Add the SSH key to the ssh-agent
+  shell: |
+    source ~/.bashrc
+    eval `ssh-agent -s`
+    ssh-add ~/.ssh/ed25519
+  args:
+    executable: /bin/bash
+  become_user: ansible

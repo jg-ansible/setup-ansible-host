@@ -1,0 +1,8 @@
+galaxy_info:
+  author: jg-ansible
+  description: A generic role to prepare the base of ansible controller server
+  license: license (MIT)
+  min_ansible_version: 2.1
+  galaxy_tags: []
+
+dependencies: []
