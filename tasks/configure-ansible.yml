@@ -16,7 +16,7 @@
 
 - name: Generate an OpenSSH keypair for the ansible user (ed25519)
   openssh_keypair:
-    path: /home/ansible/.ssh/ed25519
+    path: /home/ansible/.ssh/id_ed25519
     comment: ansible-controller
     type: ed25519
     owner: ansible
@@ -24,7 +24,7 @@
 
 - name: Fix owner of the generated pub key
   file:
-    path: /home/ansible/.ssh/ed25519.pub
+    path: /home/ansible/.ssh/id_ed25519.pub
     owner: ansible
     group: ansible
     mode: '0700'
@@ -33,7 +33,7 @@
   shell: |
     source ~/.bashrc
     eval `ssh-agent -s`
-    ssh-add ~/.ssh/ed25519
+    ssh-add ~/.ssh/id_ed25519
   args:
     executable: /bin/bash
   become_user: ansible
